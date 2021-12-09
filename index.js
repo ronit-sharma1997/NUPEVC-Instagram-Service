@@ -13,7 +13,7 @@ require("dotenv").config();
 
 const port = process.env.PORT || 4000;
 
-let instagramData = []
+let instagramData = JSON.parse(fs.readFileSync('./instagram.json'))
 
 cron.schedule("17 19 * * *", async () => {
   const instagramLoginFunction = async () => {
@@ -188,6 +188,18 @@ cron.schedule("17 19 * * *", async () => {
   };
 
 instagramLoginFunction();
+});
+
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin",
+        "http://localhost:4200");
+    res.header("Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods",
+        "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Credentials", "true");
+    next();
 });
 
 app.get('/instagram', function (req, res) {
