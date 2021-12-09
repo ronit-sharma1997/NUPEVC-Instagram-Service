@@ -15,7 +15,7 @@ const port = process.env.PORT || 4000;
 
 let instagramData = []
 
-cron.schedule("03 10 * * *", async () => {
+cron.schedule("17 19 * * *", async () => {
   const instagramLoginFunction = async () => {
     // Persist cookies after Instagram client log in
     const cookieStore = new FileCookieStore("./cookies.json");
