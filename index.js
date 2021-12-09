@@ -192,9 +192,10 @@ instagramLoginFunction();
 
 app.get('/instagram', function (req, res) {
     console.log(`${new Date()} : Getting Instagram Data`)
-    res.send(instagramData.user.edge_owner_to_timeline_media.edges.map(
+    const data = instagramData.user?.edge_owner_to_timeline_media.edges.map(
         (item) => ({imgUrl: item.node.display_url, videoUrl: item.node.video_url || null, is_video: item.node.is_video, caption: item.node.edge_media_to_caption.edges[0].node.text, shortcode: item.node.shortcode, likes: item.node.edge_media_preview_like.count, views: item.node.video_view_count || null, comments: item.node.edge_media_to_comment.count})
-      ))
+      )
+    res.send(data || [])
 });
 
 app.listen(port, () => {
