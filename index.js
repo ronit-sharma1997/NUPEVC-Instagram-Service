@@ -19,7 +19,7 @@ require("dotenv").config();
 
 const port = process.env.PORT || 4000;
 
-cron.schedule("46 20 * * *", async () => {
+cron.schedule("50 20 * * *", async () => {
   const instagramLoginFunction = async () => {
     // Persist cookies after Instagram client log in
     const cookieStore = new FileCookieStore("./cookies.json");
@@ -43,7 +43,6 @@ cron.schedule("46 20 * * *", async () => {
             console.log(`${new Date()} : Setting Instagram Data In Memory for the Day`)
             console.log("Res is: ", JSON.stringify(res))
             memCacheClient.set("instagramData", JSON.stringify(res));
-            console.log(memCacheClient.get("instagramData"))
         }
         )
     };
@@ -211,8 +210,7 @@ app.use(function(req, res, next) {
 app.get('/instagram', function (req, res) {
     console.log(`${new Date()} : Getting Instagram Data`)
     memCacheClient.get("instagramData", function (err, value, key) {
-        console.log("Value is: ", value)
-        const parsedValue = value.toJSON()
+        const parsedValue = JSON.parse(value.toString());
         console.log("Parsed value is: ", parsedValue)
         if (parsedValue != null) {
             const data = parsedValue.user?.edge_owner_to_timeline_media.edges.map(
