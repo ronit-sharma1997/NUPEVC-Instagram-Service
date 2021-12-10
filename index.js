@@ -19,7 +19,7 @@ require("dotenv").config();
 
 const port = process.env.PORT || 4000;
 
-cron.schedule("54 17 * * *", async () => {
+cron.schedule("17 18 * * *", async () => {
   const instagramLoginFunction = async () => {
     // Persist cookies after Instagram client log in
     const cookieStore = new FileCookieStore("./cookies.json");
