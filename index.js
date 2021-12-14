@@ -3,10 +3,6 @@ const app = express();
 
 const Instagram = require("instagram-web-api");
 const FileCookieStore = require("tough-cookie-filestore2");
-const fs = require("fs");
-const imaps = require("imap-simple");
-const _ = require("lodash");
-const simpleParser = require("mailparser").simpleParser;
 const cron = require("node-cron");
 const memjs = require('memjs');
 
@@ -36,15 +32,12 @@ cron.schedule("0 0 */3 * *", async () => {
       }
     );
 
-    const instagramGetPicturesFunction = async () => {
-      await client
-        .getPhotosByUsername({ username: process.env.INSTAGRAM_USERNAME })
-        .then((res) => {
-            console.log(`${new Date()} : Setting Instagram Data In Memory for the Day`)
-            memCacheClient.set("instagramData", JSON.stringify(res));
-        }
-        )
-    };
+    const instagramGetUser = async () => {
+      await client.getUserByUsername({username: process.env.INSTAGRAM_USERNAME}).then((res) => {
+        console.log(`${new Date()} : Setting Instagram Profile In Memory for the Day`)
+        memCacheClient.set("instagramData", JSON.stringify(res));
+      })
+    }
 
     try {
       console.log(`${new Date()} : Logging in...`);
@@ -53,9 +46,9 @@ cron.schedule("0 0 */3 * *", async () => {
 
       console.log(`${new Date()} : Login successful!`);
 
-      await instagramGetPicturesFunction()
+      await instagramGetUser()
     } catch (err) {
-      console.log(`${new Date()} : Login failed!`);
+      console.log(`${new Date()} : ${err.message}`);
     }
   };
 
@@ -80,14 +73,22 @@ app.get('/instagram', function (req, res) {
         const parsedValue = JSON.parse(value.toString());
 
         if (parsedValue != null) {
-            const data = parsedValue.user?.edge_owner_to_timeline_media.edges.map(
-                (item) => ({imgUrl: item.node.display_url, videoUrl: item.node.video_url || null, is_video: item.node.is_video, caption: item.node.edge_media_to_caption.edges[0].node.text, shortcode: item.node.shortcode, likes: item.node.edge_media_preview_like.count, views: item.node.video_view_count || null, comments: item.node.edge_media_to_comment.count})
-              )
-            res.send(data || [])
+          let data = parsedValue?.edge_owner_to_timeline_media?.edges.map(
+            (item) => ({imgUrl: encodeURIComponent(item.node.display_url), videoUrl: item.node.video_url ? encodeURIComponent(item.node.video_url) : null, is_video: item.node.is_video, caption: item.node.edge_media_to_caption.edges[0].node.text, shortcode: item.node.shortcode, likes: item.node.edge_media_preview_like.count, views: item.node.video_view_count || null, comments: item.node.edge_media_to_comment.count})
+          )
+          data = {posts: data, postCount: instagramData?.edge_owner_to_timeline_media?.count, 
+                        username : instagramData?.username, 
+                        title: instagramData?.full_name, 
+                        biography: instagramData?.biography,
+                        url: instagramData?.external_url,
+                        followersCount: instagramData?.edge_followed_by?.count,
+                        followingCount: instagramData?.edge_follow?.count }
+          res.send(data || [])
         } else {
             res.send([])
         }
     });
+    
     
 });
 

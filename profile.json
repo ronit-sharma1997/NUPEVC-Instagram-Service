@@ -1,0 +1,39 @@
+{
+    "first_name": "NU PEVC",
+    "last_name": "",
+    "email": "chen.ter@husky.neu.edu",
+    "is_email_confirmed": false,
+    "is_phone_confirmed": false,
+    "username": "nu_pevc",
+    "phone_number": "",
+    "gender": 3,
+    "birthday": null,
+    "fb_birthday": "1999-12-06",
+    "biography": "@northeastern organization of passionate students dedicated to fostering and nurturing connections and opportunities within the PE/VC space",
+    "external_url": "https://linktr.ee/nu_pevc",
+    "chaining_enabled": true,
+    "presence_disabled": false,
+    "business_account": false,
+    "usertag_review_enabled": false,
+    "change_profile_pic_actions_screen_header": "Change Profile Photo",
+    "change_profile_pic_actions_screen_upload_cta": "Upload Photo",
+    "change_profile_pic_actions_screen_remove_cta": "Remove Current Photo",
+    "change_profile_pic_actions_screen_cancel_cta": "Cancel",
+    "custom_gender": "",
+    "trusted_username": "nu_pevc",
+    "trust_days": 14,
+    "profile_edit_params": {
+        "username": {
+            "should_show_confirmation_dialog": false,
+            "is_pending_review": false,
+            "confirmation_dialog_text": "Because your account reaches a lot of people, your username change may need to be reviewed. If so, you'll be notified when we've reviewed it. If not, your username will change immediately.",
+            "disclaimer_text": ""
+        },
+        "full_name": {
+            "should_show_confirmation_dialog": false,
+            "is_pending_review": false,
+            "confirmation_dialog_text": "Because your account is verified, your name change may need to be reviewed. If so, you'll be notified when we've reviewed it. If not, your name will change immediately.",
+            "disclaimer_text": ""
+        }
+    }
+}
