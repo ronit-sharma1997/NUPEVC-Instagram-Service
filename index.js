@@ -76,13 +76,13 @@ app.get('/instagram', function (req, res) {
           let data = parsedValue?.edge_owner_to_timeline_media?.edges.map(
             (item) => ({imgUrl: encodeURIComponent(item.node.display_url), videoUrl: item.node.video_url ? encodeURIComponent(item.node.video_url) : null, is_video: item.node.is_video, caption: item.node.edge_media_to_caption.edges[0].node.text, shortcode: item.node.shortcode, likes: item.node.edge_media_preview_like.count, views: item.node.video_view_count || null, comments: item.node.edge_media_to_comment.count})
           )
-          data = {posts: data, postCount: instagramData?.edge_owner_to_timeline_media?.count, 
-                        username : instagramData?.username, 
-                        title: instagramData?.full_name, 
-                        biography: instagramData?.biography,
-                        url: instagramData?.external_url,
-                        followersCount: instagramData?.edge_followed_by?.count,
-                        followingCount: instagramData?.edge_follow?.count }
+          data = {posts: data, postCount: parsedValue?.edge_owner_to_timeline_media?.count, 
+                        username : parsedValue?.username, 
+                        title: parsedValue?.full_name, 
+                        biography: parsedValue?.biography,
+                        url: parsedValue?.external_url,
+                        followersCount: parsedValue?.edge_followed_by?.count,
+                        followingCount: parsedValue?.edge_follow?.count }
           res.send(data || [])
         } else {
             res.send([])
