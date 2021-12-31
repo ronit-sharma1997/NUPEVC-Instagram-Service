@@ -1,9 +1,5 @@
 const express = require("express");
 const app = express();
-
-const Instagram = require("instagram-web-api");
-const FileCookieStore = require("tough-cookie-filestore2");
-const cron = require("node-cron");
 const memjs = require('memjs');
 
 const memCacheClient = memjs.Client.create(process.env.MEMCACHEDCLOUD_SERVERS, {
@@ -14,47 +10,6 @@ const memCacheClient = memjs.Client.create(process.env.MEMCACHEDCLOUD_SERVERS, {
 require("dotenv").config();
 
 const port = process.env.PORT || 4000;
-
-cron.schedule("0 0 */2 * *", async () => {
-  const instagramLoginFunction = async () => {
-    // Persist cookies after Instagram client log in
-    const cookieStore = new FileCookieStore("./cookies.json");
-
-    const client = new Instagram(
-      {
-        username: process.env.INSTAGRAM_USERNAME,
-        password: process.env.INSTAGRAM_PASSWORD,
-        cookieStore,
-      },
-      {
-        language: "en-US",
-        proxy: process.env.NODE_ENV === "production" ? process.env.FIXIE_URL : undefined
-      }
-    );
-
-    const instagramGetUser = async () => {
-      await client.getUserByUsername({username: process.env.INSTAGRAM_USERNAME}).then((res) => {
-        console.log(`${new Date()} : Setting Instagram Profile In Memory for the Day`)
-        memCacheClient.set("instagramData", JSON.stringify(res));
-      })
-    }
-
-    try {
-      console.log(`${new Date()} : Logging in...`);
-
-      await client.login();
-
-      console.log(`${new Date()} : Login successful!`);
-
-      await instagramGetUser()
-    } catch (err) {
-      console.log(`${new Date()} : ${err.message}`);
-    }
-  };
-
-instagramLoginFunction();
-});
-
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin",
