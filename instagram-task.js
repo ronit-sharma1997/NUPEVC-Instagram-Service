@@ -47,5 +47,5 @@ async function instagramLoginFunction() {
     }
 }
 
-instagramLoginFunction();
+await instagramLoginFunction();
 console.log('Done')
