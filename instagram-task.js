@@ -39,7 +39,7 @@ const instagramLoginFunction = async () => {
 
       console.log(`${new Date()} : Login successful!`);
 
-      await instagramGetUser()
+      instagramGetUser()
     } catch (err) {
       console.log(`${new Date()} : ${err.message}`);
     }
