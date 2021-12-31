@@ -2,11 +2,6 @@ const Instagram = require("instagram-web-api");
 const FileCookieStore = require("tough-cookie-filestore2");
 const memjs = require('memjs');
 
-const memCacheClient = memjs.Client.create(process.env.MEMCACHEDCLOUD_SERVERS, {
-    username: process.env.MEMCACHEDCLOUD_USERNAME,
-    password: process.env.MEMCACHEDCLOUD_PASSWORD
-  });
-
 require("dotenv").config();
 
 async function instagramLoginFunction() {
@@ -35,7 +30,11 @@ async function instagramLoginFunction() {
       const res = await client.getUserByUsername({username: process.env.INSTAGRAM_USERNAME})
 
       console.log(`${new Date()} : Setting Instagram Profile In Memory for the Day`)
-      memCacheClient.set("instagramData", JSON.stringify(res))
+
+      memjs.Client.create(process.env.MEMCACHEDCLOUD_SERVERS, {
+        username: process.env.MEMCACHEDCLOUD_USERNAME,
+        password: process.env.MEMCACHEDCLOUD_PASSWORD
+      }).set("instagramData", JSON.stringify(res))
 
     } catch (err) {
       console.log(`${new Date()} : ${err.message}`);
