@@ -1,8 +1,8 @@
 const Instagram = require("instagram-web-api");
 const FileCookieStore = require("tough-cookie-filestore2");
-import { Client } from "memjs";
+const memjs = require('memjs');
 
-const memCacheClient = Client.create(process.env.MEMCACHEDCLOUD_SERVERS, {
+const memCacheClient = memjs.Client.create(process.env.MEMCACHEDCLOUD_SERVERS, {
     username: process.env.MEMCACHEDCLOUD_USERNAME,
     password: process.env.MEMCACHEDCLOUD_PASSWORD
   });
