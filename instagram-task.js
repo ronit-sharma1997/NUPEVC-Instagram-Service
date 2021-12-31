@@ -9,7 +9,7 @@ const memCacheClient = memjs.Client.create(process.env.MEMCACHEDCLOUD_SERVERS, {
 
 require("dotenv").config();
 
-function instagramLoginFunction() {
+async function instagramLoginFunction() {
     // Persist cookies after Instagram client log in
     const cookieStore = new FileCookieStore("./cookies.json");
 
@@ -34,9 +34,8 @@ function instagramLoginFunction() {
 
       const res = await client.getUserByUsername({username: process.env.INSTAGRAM_USERNAME})
 
-      console.log(`${new Date()} : Setting Instagram Profile In Memory for the Day`)
-      memCacheClient.set("instagramData", JSON.stringify(res))
-      return
+    //   console.log(`${new Date()} : Setting Instagram Profile In Memory for the Day`)
+    //   memCacheClient.set("instagramData", JSON.stringify(res))
 
     } catch (err) {
       console.log(`${new Date()} : ${err.message}`);
