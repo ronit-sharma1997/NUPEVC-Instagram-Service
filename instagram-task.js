@@ -32,11 +32,12 @@ async function instagramLoginFunction() {
 
       console.log(`${new Date()} : Login successful!`);
 
-    //   client.getUserByUsername({username: process.env.INSTAGRAM_USERNAME}).then((res) => {
-    //     console.log(`${new Date()} : Setting Instagram Profile In Memory for the Day`)
-    //     memCacheClient.set("instagramData", JSON.stringify(res));
-    //     console.log("Finished getting user")
-    //   })
+      const res = await client.getUserByUsername({username: process.env.INSTAGRAM_USERNAME})
+
+      console.log(`${new Date()} : Setting Instagram Profile In Memory for the Day`)
+      memCacheClient.set("instagramData", JSON.stringify(res));
+      console.log("Finished getting user")
+      
     } catch (err) {
       console.log(`${new Date()} : ${err.message}`);
     }
