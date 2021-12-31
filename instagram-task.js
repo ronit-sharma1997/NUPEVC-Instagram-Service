@@ -9,7 +9,7 @@ const memCacheClient = memjs.Client.create(process.env.MEMCACHEDCLOUD_SERVERS, {
 
 require("dotenv").config();
 
-const instagramLoginFunction = async () => {
+async function instagramLoginFunction() {
     // Persist cookies after Instagram client log in
     const cookieStore = new FileCookieStore("./cookies.json");
 
@@ -40,9 +40,12 @@ const instagramLoginFunction = async () => {
       console.log(`${new Date()} : Login successful!`);
 
       await instagramGetUser()
+
+      console.log("Finished getting user")
     } catch (err) {
       console.log(`${new Date()} : ${err.message}`);
     }
-};
+}
 
-await instagramLoginFunction();
+instagramLoginFunction();
+console.log('Done')
