@@ -46,7 +46,10 @@ async function instagramLoginFunction() {
 
 instagramLoginFunction().then((res) => {
     console.log(`${new Date()} : Setting Instagram Profile In Memory for the Day`)
-    memCacheClient.set("instagramData", JSON.stringify(res))
-    console.log('Done')
-    return
+    memCacheClient.set("instagramData", JSON.stringify(res)).then((res) => {
+        console.log(res)
+        console.log('Done')
+        return
+    })
+    
 })
