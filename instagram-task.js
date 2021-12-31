@@ -25,12 +25,12 @@ async function instagramLoginFunction() {
       }
     );
 
-    const instagramGetUser = async () => {
-      await client.getUserByUsername({username: process.env.INSTAGRAM_USERNAME}).then((res) => {
-        console.log(`${new Date()} : Setting Instagram Profile In Memory for the Day`)
-        memCacheClient.set("instagramData", JSON.stringify(res));
-      })
-    }
+    // const instagramGetUser = async () => {
+    //   await client.getUserByUsername({username: process.env.INSTAGRAM_USERNAME}).then((res) => {
+    //     console.log(`${new Date()} : Setting Instagram Profile In Memory for the Day`)
+    //     memCacheClient.set("instagramData", JSON.stringify(res));
+    //   })
+    // }
 
     try {
       console.log(`${new Date()} : Logging in...`);
@@ -39,7 +39,7 @@ async function instagramLoginFunction() {
 
       console.log(`${new Date()} : Login successful!`);
 
-      await instagramGetUser()
+    //   await instagramGetUser()
 
       console.log("Finished getting user")
     } catch (err) {
@@ -47,5 +47,4 @@ async function instagramLoginFunction() {
     }
 }
 
-await instagramLoginFunction();
-console.log('Done')
+instagramLoginFunction();
