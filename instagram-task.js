@@ -35,11 +35,8 @@ async function instagramLoginFunction() {
       const res = await client.getUserByUsername({username: process.env.INSTAGRAM_USERNAME})
 
       console.log(`${new Date()} : Setting Instagram Profile In Memory for the Day`)
-      memCacheClient.set("instagramData", JSON.stringify(res), {}, function(err, val) {
-        console.log('Error: ', err)
-        console.log('Value: ', val)
-        console.log("Finished getting user")
-      });
+      memCacheClient.set("instagramData", JSON.stringify(res))
+      return
 
     } catch (err) {
       console.log(`${new Date()} : ${err.message}`);
