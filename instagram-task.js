@@ -2,12 +2,12 @@ const Instagram = require("instagram-web-api");
 const FileCookieStore = require("tough-cookie-filestore2");
 const memjs = require('memjs');
 
-require("dotenv").config();
-
 const memCacheClient = memjs.Client.create(process.env.MEMCACHEDCLOUD_SERVERS, {
     username: process.env.MEMCACHEDCLOUD_USERNAME,
     password: process.env.MEMCACHEDCLOUD_PASSWORD
   });
+
+require("dotenv").config();
 
 async function instagramLoginFunction() {
     // Persist cookies after Instagram client log in
