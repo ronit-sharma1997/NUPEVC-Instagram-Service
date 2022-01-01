@@ -34,9 +34,7 @@ async function instagramLoginFunction() {
 
       client.getUserByUsername({username: process.env.INSTAGRAM_USERNAME}).then((res) => {
         console.log(`${new Date()} : Setting Instagram Profile In Memory for the Day`)
-        memCacheClient.set("instagramData", JSON.stringify(res)).then((res) => {
-            memCacheClient.quit()
-        });
+        memCacheClient.set("instagramData", JSON.stringify(res))
       })
     } catch (err) {
       console.log(`${new Date()} : ${err.message}`);
